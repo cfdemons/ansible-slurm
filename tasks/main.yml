@@ -1,5 +1,9 @@
 ---
 
+- name: Install database server
+  ansible.builtin.include_tasks: db.yml
+  when: "'slurmdbservers' in group_names or 'dbserver' in slurm_roles"
+
 - name: Include user creation tasks
   ansible.builtin.include_tasks: user.yml
   when: slurm_create_user
