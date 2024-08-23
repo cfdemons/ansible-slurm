@@ -30,6 +30,12 @@
     state: started
   when: "slurm_start_services and ('slurmdbdservers' in group_names or 'dbd' in slurm_roles)"
 
+- name: Ensure slurmdbd is listening
+  ansible.builtin.wait_for:
+    host: localhost
+    port: 6819 # TODO: make this customisable
+    timeout: 10
+
 - name: Ensure slurmctld is enabled and running
   ansible.builtin.service:
     name: "{{ slurmctld_service_name }}"
