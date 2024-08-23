@@ -18,6 +18,6 @@
 - name: Create slurm user
   mysql_user:
     name: "{{ slurm_db_username }}"
-    password: "{{ slurm_db_pass }}"
     priv: '*.*:ALL'
+    plugin: unix_socket
     state: present

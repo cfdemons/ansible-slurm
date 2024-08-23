@@ -96,6 +96,4 @@ __slurmdbd_config_default:
   LogFile: "{{ __slurm_log_dir ~ '/slurmdbd.log' if __slurm_debian else omit }}"
   StorageLoc: " {{ slurm_db_name }}"
   StorageUser: "{{ slurm_db_username }}"
-  StoragePass: "{{ slurm_db_pass }}"
-  
 __slurmdbd_config_merged: "{{ __slurmdbd_config_default | combine(slurmdbd_config | default({})) }}"
