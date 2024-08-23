@@ -18,6 +18,26 @@
   ansible.builtin.include_tasks: _inc_create_config_dir.yml
   when: slurm_create_dirs
 
+- name: Create slurmdbd systemd drop-in directory
+  ansible.builtin.file:
+    path: "/etc/systemd/system/slurmdbd.service.d"
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o=r"
+    state: directory
+
+- name: Install slurmdbd systemd drop-in
+  ansible.builtin.template:
+    src: 10-slurmdbd_overrides.conf
+    dest: "/etc/systemd/system/slurmdbd.service.d/10-slurmdbd_overrides.conf"
+    owner: root
+    group: root
+    mode: "u=rw,g=r,o=r"
+
+- name: Reload systemd configurations
+  ansible.builtin.systemd_service:
+    daemon_reload: true
+
 - name: Install slurmdbd.conf
   ansible.builtin.template:
     src: generic.conf.j2
